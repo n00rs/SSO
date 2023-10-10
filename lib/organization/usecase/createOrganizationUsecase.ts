@@ -4,7 +4,7 @@ import getDBConnection from "../../../common/utilities/postgreSQLHandler";
 
 export function createOrganizationUseCaseFactory(organizationModel, createOrganizationDB) {
     return async function createOrganizationUseCase(organizationBody: IOrganization) {
-        let  dbConnection = await getDBConnection();
+        let dbConnection = await getDBConnection(); //terminate the connection .....
         try {
             const objOrganizationModel = organizationModel(organizationBody);
             let objDBResult = await createOrganizationDB({
@@ -13,7 +13,7 @@ export function createOrganizationUseCaseFactory(organizationModel, createOrgani
             });
 
 
-            return {...objOrganizationModel, ...objDBResult};
+            return { ...objOrganizationModel, intPk: objDBResult?.['pkOrganizationId'] };
         } catch (error) {
 
             throw new errHandler(error);
