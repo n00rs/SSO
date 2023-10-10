@@ -8,9 +8,9 @@ import ErrHandler from './errorHandler';
 export default async function getDBConnection(){
   let client: Client;
   try {
-    const pgConfig = await getPGConfig();
+    const pgConfig =  getPGConfig();
     client = new Client(pgConfig);
-    await client.connect();
+    await client.connect(); //todo check the return and verify the connection is established
     return client;
   } catch (error) {
     throw new ErrHandler(error);
@@ -20,7 +20,7 @@ export default async function getDBConnection(){
 /**
  * Get postgres configuration
  */
-async function getPGConfig(): Promise<ClientConfig>{
+ function getPGConfig():ClientConfig{
   const DB_USER = process.env.DB_USER;
   const DB_PASSWORD = process.env.DB_PASSWORD;
   const DB_HOST = process.env.DB_HOST;
